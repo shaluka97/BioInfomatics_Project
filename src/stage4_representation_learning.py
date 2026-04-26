@@ -145,19 +145,35 @@ def run_stage4(X: np.ndarray, cfg: Stage4Config,
     reconstruction-driven, which dramatically improves causal recovery on
     real and synthetic data alike.
     """
-    if not cfg.enabled or X.shape[1] == 0:
-        return np.zeros(X.shape[1]), np.zeros((X.shape[0], 0)), {"enabled": False}
+    if not cfg.enabled:
+        return np.zeros(X.shape[1]), np.zeros((X.shape[0], 0)), {
+            "enabled": False,
+            "disabled_reason": "stage4.disabled_in_config",
+        }
+    if X.shape[1] == 0:
+        return np.zeros(X.shape[1]), np.zeros((X.shape[0], 0)), {
+            "enabled": False,
+            "disabled_reason": "stage4.no_features",
+        }
     contrib, info, Z = _train_autoencoder(X, cfg)
     info["enabled"] = True
     info["embedding_shape"] = Z.shape
 
     if y is not None and Z.shape[1] > 0 and len(np.unique(y)) > 1:
         from sklearn.linear_model import LogisticRegression
+        y_arr = np.asarray(y)
+        y_unique = np.unique(y_arr)
+        if set(y_unique.tolist()) == {-1, 1}:
+            y_arr = ((y_arr + 1) // 2).astype(np.int64)
+            info["y_normalized_from_pm1"] = True
+        elif not set(y_unique.tolist()).issubset({0, 1}):
+            raise ValueError("Stage4 supervised blending expects binary labels encoded as {0,1} or {-1,1}.")
+
         Zn_mean = Z.mean(axis=0); Zn_std = Z.std(axis=0) + 1e-6
         Zn = (Z - Zn_mean) / Zn_std
         clf = LogisticRegression(penalty="l1", solver="liblinear",
                                  C=1.0, max_iter=2000)
-        clf.fit(Zn, y)
+        clf.fit(Zn, y_arr)
         w_clf = clf.coef_.ravel() / Zn_std   # gradient of logit-output w.r.t. raw Z
         info["downstream_l1_weights"] = np.abs(w_clf)
         # Trace gradient of logit w.r.t. inputs through the encoder:

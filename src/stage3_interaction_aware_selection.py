@@ -20,10 +20,14 @@ We also expose the per-method importance scores so Stage 5 can use them.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from typing import Dict, Tuple
 
 import numpy as np
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 @dataclass
@@ -34,6 +38,7 @@ class Stage3Config:
     xgb_max_depth: int = 5
     xgb_n_estimators: int = 200
     xgb_learning_rate: float = 0.1
+    gene_prior_strength: float = 0.5
     seed: int = 42
 
 
@@ -113,8 +118,8 @@ def _run_reliefF(X: np.ndarray, y: np.ndarray, cfg: Stage3Config) -> np.ndarray:
             rf.fit(np.ascontiguousarray(X, dtype=np.float64),
                    np.ascontiguousarray(y, dtype=np.int64))
             return np.asarray(rf.feature_importances_, dtype=np.float64)
-        except Exception:
-            pass
+        except Exception as exc:
+            LOGGER.warning("Falling back to fast ReliefF because skrebate failed: %s", exc)
     return _fast_reliefF(X, y, n_neighbors=cfg.reliefF_neighbors, seed=cfg.seed)
 
 
@@ -144,10 +149,38 @@ def _run_xgb(X: np.ndarray, y: np.ndarray, cfg: Stage3Config) -> np.ndarray:
 
 
 def run_stage3(X: np.ndarray, y: np.ndarray,
-               cfg: Stage3Config) -> Tuple[np.ndarray, Dict]:
+               cfg: Stage3Config,
+               feature_prior: np.ndarray | None = None) -> Tuple[np.ndarray, Dict]:
     n_snps = X.shape[1]
-    relief = _run_reliefF(X, y, cfg)
-    xgb_imp = _run_xgb(X, y, cfg)
+    relief_raw = _run_reliefF(X, y, cfg)
+    xgb_raw = _run_xgb(X, y, cfg)
+
+    relief = relief_raw.copy()
+    xgb_imp = xgb_raw.copy()
+    prior_used = False
+    if feature_prior is not None:
+        if feature_prior.shape[0] != n_snps:
+            raise ValueError(
+                f"feature_prior length {feature_prior.shape[0]} does not match n_snps {n_snps}"
+            )
+        strength = float(np.clip(cfg.gene_prior_strength, 0.0, 1.0))
+        if strength > 0:
+            prior = np.asarray(feature_prior, dtype=np.float64)
+            prior_min, prior_max = float(np.min(prior)), float(np.max(prior))
+            if prior_max > prior_min:
+                prior = (prior - prior_min) / (prior_max - prior_min)
+            else:
+                prior = np.zeros_like(prior)
+
+            def _minmax(v: np.ndarray) -> np.ndarray:
+                lo, hi = float(np.min(v)), float(np.max(v))
+                if hi <= lo:
+                    return np.zeros_like(v)
+                return (v - lo) / (hi - lo)
+
+            relief = _minmax(relief_raw) + strength * prior
+            xgb_imp = _minmax(xgb_raw) + strength * prior
+            prior_used = True
 
     relief_top = np.argsort(relief)[-cfg.reliefF_topk:]
     xgb_top = np.argsort(xgb_imp)[-cfg.xgb_topk:]
@@ -162,5 +195,8 @@ def run_stage3(X: np.ndarray, y: np.ndarray,
         "union_kept": int(keep.sum()),
         "reliefF_score": relief,
         "xgb_score": xgb_imp,
+        "reliefF_raw_score": relief_raw,
+        "xgb_raw_score": xgb_raw,
+        "used_feature_prior": prior_used,
     }
     return keep, info

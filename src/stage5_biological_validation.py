@@ -83,13 +83,36 @@ def _map_snps_to_genes(snp_indices: np.ndarray, gene_table: pd.DataFrame) -> Lis
     return out
 
 
+def _read_tsv_checked(path: str, required_cols: Tuple[str, ...], name: str) -> pd.DataFrame:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"{name} file not found: {path}")
+    df = pd.read_csv(path, sep="\t")
+    missing = [c for c in required_cols if c not in df.columns]
+    if missing:
+        raise ValueError(f"{name} is missing columns: {', '.join(missing)}")
+    return df
+
+
 def run_stage5(final_snp_indices: np.ndarray, project_root: str,
                cfg: Stage5Config) -> Dict:
     info: Dict[str, object] = {}
 
-    gene_table = pd.read_csv(os.path.join(project_root, cfg.gene_table_path), sep="\t")
-    catalog = pd.read_csv(os.path.join(project_root, cfg.gwas_catalog_path), sep="\t")
-    pathways = pd.read_csv(os.path.join(project_root, cfg.pathway_table_path), sep="\t")
+    gene_table_path = os.path.join(project_root, cfg.gene_table_path)
+    catalog_path = os.path.join(project_root, cfg.gwas_catalog_path)
+    pathway_path = os.path.join(project_root, cfg.pathway_table_path)
+
+    gene_table = _read_tsv_checked(
+        gene_table_path,
+        required_cols=("gene", "snp_start", "snp_end"),
+        name="gene_table",
+    )
+    gene_table = gene_table.sort_values("snp_start").reset_index(drop=True)
+    catalog = _read_tsv_checked(catalog_path, required_cols=("gene",), name="gwas_catalog")
+    pathways = _read_tsv_checked(
+        pathway_path,
+        required_cols=("pathway", "gene"),
+        name="pathway_table",
+    )
 
     mapped_genes = sorted(set(_map_snps_to_genes(final_snp_indices, gene_table)))
     info["n_mapped_genes"] = len(mapped_genes)

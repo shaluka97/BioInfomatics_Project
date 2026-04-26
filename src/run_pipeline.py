@@ -26,6 +26,7 @@ if __package__ in (None, ""):
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     sys.path.insert(0, os.path.dirname(THIS_DIR))
     from src import (baselines, data_loaders, evaluation,
+                     gwas_snp_gene_prioritization as gp,
                      stage1_ld_preprocessing as s1,
                      stage2_weak_effect_screening as s2,
                      stage3_interaction_aware_selection as s3,
@@ -34,6 +35,7 @@ if __package__ in (None, ""):
                      visualization as viz)
 else:
     from . import baselines, data_loaders, evaluation
+    from . import gwas_snp_gene_prioritization as gp
     from . import stage1_ld_preprocessing as s1
     from . import stage2_weak_effect_screening as s2
     from . import stage3_interaction_aware_selection as s3
@@ -67,7 +69,7 @@ def seed_everything(seed: int) -> None:
     try:
         import xgboost  # noqa
     except Exception:
-        pass
+        logging.getLogger("gwas").warning("xgboost import failed during seed init")
 
 
 def run(config_path: str, dataset: str, run_id: str | None = None) -> Dict:
@@ -139,12 +141,35 @@ def run(config_path: str, dataset: str, run_id: str | None = None) -> Dict:
         os.path.join(run_dir, "stage2_kept.csv"), index=False)
     full_pvalues_stage2 = np.ones(X.shape[1])
     full_pvalues_stage2[keep1] = info2["pvalue"]
+    full_beta_stage2 = np.zeros(X.shape[1])
+    full_beta_stage2[keep1] = info2["beta"]
+
+    gp_cfg_dict = cfg.get("gene_prioritization", {})
+    gp_cfg = gp.GenePrioritizationConfig(
+        enabled=gp_cfg_dict.get("enabled", True),
+        gene_table_path=gp_cfg_dict.get("gene_table_path", cfg["stage5"]["gene_table_path"]),
+        beta_weight=gp_cfg_dict.get("beta_weight", 0.6),
+        pvalue_weight=gp_cfg_dict.get("pvalue_weight", 0.4),
+    )
+    stage3_input_idx = np.where(keep2)[0]
+    stage3_feature_prior, gp_info = gp.build_feature_prior(
+        stage3_input_idx,
+        full_beta_stage2,
+        full_pvalues_stage2,
+        root,
+        gp_cfg,
+    )
+    logger.info(
+        "Gene-prioritization: enabled=%s mapped_snps=%s mapped_genes=%s",
+        gp_info.get("enabled"), gp_info.get("mapped_snps"), gp_info.get("mapped_genes")
+    )
 
     # ---------- Stage 3 ----------
     t0 = time.time()
     s3_cfg = s3.Stage3Config(**cfg["stage3"], seed=seed)
     X2 = X[:, keep2]
-    keep3_local, info3 = s3.run_stage3(X2, y, s3_cfg)
+    keep3_local, info3 = s3.run_stage3(X2, y, s3_cfg,
+                                       feature_prior=stage3_feature_prior)
     timings["stage3"] = time.time() - t0
     stage_counts["stage3"] = int(keep3_local.sum())
     keep3 = np.zeros(X.shape[1], dtype=bool)
@@ -283,6 +308,12 @@ def run(config_path: str, dataset: str, run_id: str | None = None) -> Dict:
         "stage_counts": stage_counts,
         "timings_seconds": timings,
         "figures": figs,
+        "gene_prioritization": {
+            "enabled": gp_info.get("enabled", False),
+            "mapped_snps": gp_info.get("mapped_snps", 0),
+            "mapped_genes": gp_info.get("mapped_genes", 0),
+            "top_genes": gp_info.get("top_genes", []),
+        },
         "stage5_pathway_top3": info5["top3_pathways"],
         "stage5_gwas_catalog_overlap_n": info5["n_gwas_catalog_overlap"],
         "stage5_mapped_genes_n": info5["n_mapped_genes"],

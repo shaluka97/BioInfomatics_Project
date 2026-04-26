@@ -20,6 +20,7 @@ from src import (stage1_ld_preprocessing as s1,
                  stage3_interaction_aware_selection as s3,
                  stage4_representation_learning as s4,
                  stage5_biological_validation as s5,
+                 gwas_snp_gene_prioritization as gp,
                  baselines, evaluation)
 
 
@@ -81,6 +82,47 @@ def test_stage5_runs(tmp_path, tiny_data):
     out = s5.run_stage5(np.array([0, 50, 100, 200]), str(project), s5.Stage5Config())
     assert "n_mapped_genes" in out
     assert "pathway_enrichment" in out
+
+
+def test_gene_prioritization_builds_weights(tmp_path, tiny_data):
+    X, y, _ = tiny_data
+    project = tmp_path
+    s5.make_synthetic_annotations(str(project), n_snps=X.shape[1], block_size=50, seed=0)
+
+    beta_full = np.linspace(0.0, 1.0, X.shape[1])
+    pvalue_full = np.linspace(1e-6, 0.9, X.shape[1])
+    snp_subset = np.array([0, 3, 55, 90, 125, 201], dtype=np.int64)
+
+    prior, info = gp.build_feature_prior(
+        snp_subset,
+        beta_full,
+        pvalue_full,
+        str(project),
+        gp.GenePrioritizationConfig(),
+    )
+
+    assert prior.shape == (snp_subset.size,)
+    assert np.all(prior >= 0.0)
+    assert np.all(prior <= 1.0)
+    assert info["mapped_snps"] > 0
+
+
+def test_stage3_accepts_feature_prior(tiny_data):
+    X, y, _ = tiny_data
+    cfg = s3.Stage3Config(
+        reliefF_neighbors=20,
+        reliefF_topk=15,
+        xgb_topk=15,
+        xgb_max_depth=3,
+        xgb_n_estimators=30,
+        gene_prior_strength=1.0,
+        seed=0,
+    )
+    feature_prior = np.zeros(X.shape[1], dtype=np.float64)
+    feature_prior[:10] = 1.0
+    keep, info = s3.run_stage3(X, y, cfg, feature_prior=feature_prior)
+    assert keep.shape[0] == X.shape[1]
+    assert info["used_feature_prior"] is True
 
 
 def test_baselines(tiny_data):
