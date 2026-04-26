@@ -1,0 +1,38 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE/editor settings
+.idea/
+.vscode/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs and runtime files
+*.log
+
+# Generated pipeline outputs
+results/figures/**
+results/tables/**
+results/*/run.log
+results/*/summary.json
+results/*/stage*_kept.csv
+results/*/stage5_*.csv
+
+# Local/generated helper files
+proposal_extracted.txt
