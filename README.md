@@ -37,6 +37,20 @@ pytest tests/ -q
 Outputs land in `results/<run_id>/`, with figures in `results/figures/<run_id>/`
 and tables in `results/tables/<run_id>/`.
 
+## Git hygiene
+
+The project now includes a root `.gitignore` to keep local/derived files out of
+version control. In particular, it ignores:
+
+- virtual environments (`venv/`, `.venv/`)
+- Python caches (`__pycache__/`, `.pytest_cache/`, `.mypy_cache/`)
+- IDE metadata (`.idea/`, `.vscode/`)
+- generated run outputs such as per-run logs and stage CSVs under `results/`
+- local helper extraction files like `proposal_extracted.txt`
+
+If you need to commit a specific generated artifact (for example, a frozen table
+for the report), add it explicitly with `git add -f <path>`.
+
 ## Repository layout
 
 ```
@@ -53,6 +67,7 @@ gwas-search-space-reduction/
 │   ├── data_loaders.py           # synthetic + 1000G loader
 │   ├── stage1_ld_preprocessing.py
 │   ├── stage2_weak_effect_screening.py
+│   ├── gwas_snp_gene_prioritization.py
 │   ├── stage3_interaction_aware_selection.py
 │   ├── stage4_representation_learning.py
 │   ├── stage5_biological_validation.py
@@ -72,7 +87,7 @@ gwas-search-space-reduction/
 |-------|---------|----------------|
 | 1 | Remove redundancy from correlated SNPs | QC (MAF, missingness, HWE) + sliding-window LD pruning |
 | 2 | Retain SNPs with weak marginal effects | Univariate score test + BH FDR + top-k per LD block |
-| 3 | Capture epistasis | ReliefF (skrebate) + XGBoost gain (depth ≥ 2) |
+| 3 | Capture epistasis | ReliefF (skrebate) + XGBoost gain (depth ≥ 2), blended with SNP→gene prior weights |
 | 4 | Compress further | Sparse autoencoder + gradient-based per-SNP contribution |
 | 5 | Confirm biological relevance | Gene mapping + GWAS Catalog overlap + pathway hypergeometric |
 
