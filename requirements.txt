@@ -1,0 +1,13 @@
+numpy>=1.23
+pandas>=2.0
+scipy>=1.10
+scikit-learn>=1.3
+statsmodels>=0.14
+matplotlib>=3.7
+seaborn>=0.12
+xgboost>=2.0
+skrebate>=0.62
+shap>=0.43
+pyyaml>=6.0
+tqdm>=4.65
+joblib>=1.3

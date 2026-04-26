@@ -1,0 +1,65 @@
+# Default configuration for the GWAS search-space-reduction pipeline.
+# Every stage's hyperparameters live here so a single command reproduces every result.
+
+run_id: "synthetic_default"
+random_seed: 42
+
+dataset:
+  type: "synthetic"          # one of: synthetic, 1000genomes
+  n_individuals: 1000
+  n_snps: 5000
+  n_causal_strong: 8
+  n_causal_weak: 20
+  n_causal_epistatic_pairs: 6
+  ld_block_size: 50          # SNPs per LD block in the simulator
+  ld_block_corr: 0.85        # within-block correlation
+  case_fraction: 0.5
+  test_size: 0.25
+  cache_path: "data/synthetic/cache.npz"
+
+stage1:
+  maf_min: 0.01
+  snp_missingness_max: 0.05
+  ind_missingness_max: 0.05
+  hwe_pvalue_min: 1.0e-6
+  ld_window_size: 50
+  ld_step_size: 5
+  ld_r2_threshold: 0.5
+
+stage2:
+  fdr_q: 0.10
+  topk_per_block: 5
+
+stage3:
+  reliefF_neighbors: 50
+  reliefF_topk: 150
+  xgb_topk: 150
+  xgb_max_depth: 5
+  xgb_n_estimators: 200
+  xgb_learning_rate: 0.1
+
+stage4:
+  enabled: true
+  hidden_dim: 256
+  bottleneck_dim: 64
+  l1_lambda: 1.0e-4
+  epochs: 60
+  batch_size: 128
+  learning_rate: 1.0e-3
+
+stage5:
+  gwas_catalog_path: "data/annotations/gwas_catalog_snapshot.tsv"
+  gene_table_path: "data/annotations/gene_table.tsv"
+  pathway_table_path: "data/annotations/pathways.tsv"
+
+baselines:
+  pvalue_threshold: 5.0e-8
+  lasso_max_iter: 2000
+  rf_n_estimators: 100
+  rf_topk: 150
+  reliefF_only_topk: 150
+
+evaluation:
+  cv_folds: 5
+  downstream_xgb_max_depth: 4
+  downstream_xgb_n_estimators: 200

@@ -1,0 +1,6 @@
+pathway,size,selected_in_set,selected_total,universe,pvalue
+PWY_signal,34,29,75,100,0.06907816984990062
+PWY_immune,42,35,75,100,0.07886832045959653
+PWY_misc,39,29,75,100,0.64138462706541
+PWY_neural,42,30,75,100,0.8254558461341205
+PWY_metabolism,43,27,75,100,0.9963289182954673

@@ -1,0 +1,63 @@
+{
+  "run_id": "g1k_chr22",
+  "dataset": "1000genomes",
+  "X_shape": [
+    1000,
+    5000
+  ],
+  "stage_counts": {
+    "input": 5000,
+    "stage1": 100,
+    "stage2": 100,
+    "stage3": 100,
+    "stage4": 75
+  },
+  "timings_seconds": {
+    "stage1": 0.03828907012939453,
+    "stage2": 0.0004360675811767578,
+    "stage3": 0.16577792167663574,
+    "stage4": 0.4438343048095703,
+    "stage5": 0.005290985107421875,
+    "baseline_pvalue": 0.014216184616088867,
+    "baseline_lasso": 0.14372754096984863,
+    "baseline_rf": 0.17569732666015625,
+    "baseline_reliefF": 6.048877716064453
+  },
+  "figures": {
+    "snp_count": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/01_snp_count.png",
+    "manhattan": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/02_manhattan.png",
+    "roc": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/03_roc.png",
+    "recovery": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/04_recovery.png",
+    "runtime": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/05_runtime.png",
+    "heatmap": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/06_top_snp_heatmap.png",
+    "shap": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/g1k_chr22/07_shap.png"
+  },
+  "stage5_pathway_top3": [
+    {
+      "pathway": "PWY_signal",
+      "size": 34,
+      "selected_in_set": 29,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.06907816984990062
+    },
+    {
+      "pathway": "PWY_immune",
+      "size": 42,
+      "selected_in_set": 35,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.07886832045959653
+    },
+    {
+      "pathway": "PWY_misc",
+      "size": 39,
+      "selected_in_set": 29,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.64138462706541
+    }
+  ],
+  "stage5_gwas_catalog_overlap_n": 4,
+  "stage5_mapped_genes_n": 75
+}

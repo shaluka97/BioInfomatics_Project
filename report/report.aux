@@ -1,0 +1,92 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{visscher25}
+\citation{purcell07}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{tibshirani96}
+\citation{wu09}
+\citation{goldstein10}
+\citation{urbanowicz18}
+\citation{romero17}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Literature Review}{2}{section.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of the five reviewed methods. \relax }}{2}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:litreview}{{1}{2}{Comparison of the five reviewed methods. \relax }{table.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Problem Statement}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Proposed Method}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 1 -- LD-based preprocessing.}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 2 -- Weak-effect-preserving screening.}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 3 -- Interaction-aware feature selection.}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 4 -- Representation learning.}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 5 -- Biological validation.}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Complexity.}{3}{section.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces SNPs retained after each stage of the proposed pipeline on the synthetic dataset. Stage 1 is the largest reduction; Stage 4 acts as a fine-grained refinement. \relax }}{4}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:counts}{{1}{4}{SNPs retained after each stage of the proposed pipeline on the synthetic dataset. Stage 1 is the largest reduction; Stage 4 acts as a fine-grained refinement. \relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments and Data}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Datasets.}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Train / test setup.}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hyperparameters.}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Baselines.}{5}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hardware.}{5}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Metrics.}{5}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Results}{5}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Search-space reduction}{5}{subsection.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces SNP counts after each stage on the synthetic dataset. \relax }}{5}{table.caption.3}\protected@file@percent }
+\newlabel{tab:counts}{{2}{5}{SNP counts after each stage on the synthetic dataset. \relax }{table.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Causal-SNP recovery}{5}{subsection.6.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Block-level causal-SNP recovery on the synthetic dataset. A causal SNP counts as recovered if any SNP in its LD block is selected. Best in each row is \textbf  {bold}.\relax }}{6}{table.caption.4}\protected@file@percent }
+\newlabel{tab:recovery}{{3}{6}{Block-level causal-SNP recovery on the synthetic dataset. A causal SNP counts as recovered if any SNP in its LD block is selected. Best in each row is \textbf {bold}.\relax }{table.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Precision (left) and recall (right) of causal-SNP recovery, broken down by causal-SNP type. The proposed pipeline has the highest recall in every category. \relax }}{6}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:recovery}{{2}{6}{Precision (left) and recall (right) of causal-SNP recovery, broken down by causal-SNP type. The proposed pipeline has the highest recall in every category. \relax }{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Downstream predictive performance}{7}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces 5-fold cross-validated downstream classifier metrics on the selected feature subset.\relax }}{7}{table.caption.6}\protected@file@percent }
+\newlabel{tab:perf}{{4}{7}{5-fold cross-validated downstream classifier metrics on the selected feature subset.\relax }{table.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Cross-validated ROC curves for a logistic regression trained on each method's selected SNP subset. \relax }}{7}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:roc}{{3}{7}{Cross-validated ROC curves for a logistic regression trained on each method's selected SNP subset. \relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Runtime}{8}{subsection.6.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Wall-clock seconds per stage and per baseline. \relax }}{8}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:runtime}{{4}{8}{Wall-clock seconds per stage and per baseline. \relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Manhattan and SNP-level views}{8}{subsection.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Manhattan plot of $-\qopname  \relax o{log}_{10}p$ values from Stage 2's univariate score test. Left: full Stage-1 survivors. Right: only those SNPs that made it through Stages 2--4. The pipeline retains the top of the Manhattan distribution while dropping the noisy bulk. \relax }}{8}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:manhattan}{{5}{8}{Manhattan plot of $-\log _{10}p$ values from Stage 2's univariate score test. Left: full Stage-1 survivors. Right: only those SNPs that made it through Stages 2--4. The pipeline retains the top of the Manhattan distribution while dropping the noisy bulk. \relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Heatmap of the top-$20$ selected SNPs across $80$ stratified samples (left half cases, right half controls). Several rows show clear case-vs-control bimodality in genotype frequency, consistent with the SNPs carrying the planted causal signal. \relax }}{9}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:heatmap}{{6}{9}{Heatmap of the top-$20$ selected SNPs across $80$ stratified samples (left half cases, right half controls). Several rows show clear case-vs-control bimodality in genotype frequency, consistent with the SNPs carrying the planted causal signal. \relax }{figure.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces SHAP summary plot for the final XGBoost classifier trained on the proposed pipeline's $75$ surviving SNPs. The top-ranked SNPs by mean$|$SHAP$|$ correspond to those that the pipeline identified as contributing most strongly to the phenotype prediction. \relax }}{10}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:shap}{{7}{10}{SHAP summary plot for the final XGBoost classifier trained on the proposed pipeline's $75$ surviving SNPs. The top-ranked SNPs by mean$|$SHAP$|$ correspond to those that the pipeline identified as contributing most strongly to the phenotype prediction. \relax }{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Biological validation (Stage 5)}{10}{subsection.6.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Top three pathways by hypergeometric over-representation $p$-value on the final $75$-SNP shortlist (synthetic data; pathway labels are simulator artefacts). \relax }}{10}{table.caption.12}\protected@file@percent }
+\newlabel{tab:pathways}{{5}{10}{Top three pathways by hypergeometric over-representation $p$-value on the final $75$-SNP shortlist (synthetic data; pathway labels are simulator artefacts). \relax }{table.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{10}{section.7}\protected@file@percent }
+\newlabel{sec:disc}{{7}{10}{Discussion}{section.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Strengths.}{10}{section.7}\protected@file@percent }
+\citation{wu09}
+\citation{urbanowicz18}
+\@writefile{toc}{\contentsline {paragraph}{Where it lags.}{11}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Threats to validity.}{11}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Comparison to literature.}{11}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusions and Future Work}{11}{section.8}\protected@file@percent }
+\bibcite{visscher25}{1}
+\bibcite{purcell07}{2}
+\bibcite{tibshirani96}{3}
+\bibcite{wu09}{4}
+\bibcite{goldstein10}{5}
+\bibcite{urbanowicz18}{6}
+\bibcite{romero17}{7}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Code and reproducibility}{12}{appendix.A}\protected@file@percent }
+\gdef \@abspage@last{12}

@@ -1,0 +1,14 @@
+2026-04-26 04:49:34,958 [INFO] Starting run_id=g1k_chr22, dataset=1000genomes
+2026-04-26 04:49:35,256 [INFO] Data: X=(1000, 5000), y mean=0.491, truth strong/weak/epi=5/10/6
+2026-04-26 04:49:35,299 [INFO] Stage1 done in 0.04s, kept 100 / 5000
+2026-04-26 04:49:35,301 [INFO] Stage2 done in 0.00s, kept 100 (FDR 5, top-k 100)
+2026-04-26 04:49:35,468 [INFO] Stage3 done in 0.17s, kept 100
+2026-04-26 04:49:35,913 [INFO] Stage4 done in 0.44s, kept 75
+2026-04-26 04:49:35,922 [INFO] Stage5 done in 0.01s, genes=75, GWAS Catalog overlap=4
+2026-04-26 04:49:35,922 [INFO] Running baselines ...
+2026-04-26 04:49:44,841 [INFO]         pvalue: kept=   46  combined-recovery P/R/F1=1.000/0.190/0.320  AUC(LR)=0.676  AUC(XGB)=0.641
+2026-04-26 04:49:45,086 [INFO]          lasso: kept=   99  combined-recovery P/R/F1=0.262/0.762/0.390  AUC(LR)=0.793  AUC(XGB)=0.761
+2026-04-26 04:49:45,348 [INFO]  random_forest: kept=  150  combined-recovery P/R/F1=0.256/0.524/0.344  AUC(LR)=0.658  AUC(XGB)=0.708
+2026-04-26 04:49:45,603 [INFO]   reliefF_only: kept=  150  combined-recovery P/R/F1=0.818/0.429/0.562  AUC(LR)=0.684  AUC(XGB)=0.675
+2026-04-26 04:49:45,831 [INFO]       proposed: kept=   75  combined-recovery P/R/F1=0.187/0.667/0.292  AUC(LR)=0.659  AUC(XGB)=0.640
+2026-04-26 04:49:51,296 [INFO] Run complete: {"run_id": "g1k_chr22", "figures": ["snp_count", "manhattan", "roc", "recovery", "runtime", "heatmap", "shap"]}

@@ -1,0 +1,63 @@
+{
+  "run_id": "synthetic_main",
+  "dataset": "synthetic",
+  "X_shape": [
+    1000,
+    5000
+  ],
+  "stage_counts": {
+    "input": 5000,
+    "stage1": 100,
+    "stage2": 100,
+    "stage3": 100,
+    "stage4": 75
+  },
+  "timings_seconds": {
+    "stage1": 0.03781628608703613,
+    "stage2": 0.00042891502380371094,
+    "stage3": 0.16016840934753418,
+    "stage4": 0.4355919361114502,
+    "stage5": 0.005215167999267578,
+    "baseline_pvalue": 0.014638900756835938,
+    "baseline_lasso": 0.1433253288269043,
+    "baseline_rf": 0.17847013473510742,
+    "baseline_reliefF": 5.466402292251587
+  },
+  "figures": {
+    "snp_count": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/01_snp_count.png",
+    "manhattan": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/02_manhattan.png",
+    "roc": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/03_roc.png",
+    "recovery": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/04_recovery.png",
+    "runtime": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/05_runtime.png",
+    "heatmap": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/06_top_snp_heatmap.png",
+    "shap": "/sessions/focused-gifted-cray/mnt/Bio Info Project/gwas-search-space-reduction/results/figures/synthetic_main/07_shap.png"
+  },
+  "stage5_pathway_top3": [
+    {
+      "pathway": "PWY_signal",
+      "size": 34,
+      "selected_in_set": 29,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.06907816984990062
+    },
+    {
+      "pathway": "PWY_misc",
+      "size": 39,
+      "selected_in_set": 31,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.27925924314658424
+    },
+    {
+      "pathway": "PWY_metabolism",
+      "size": 43,
+      "selected_in_set": 32,
+      "selected_total": 75,
+      "universe": 100,
+      "pvalue": 0.6383578424077039
+    }
+  ],
+  "stage5_gwas_catalog_overlap_n": 4,
+  "stage5_mapped_genes_n": 75
+}
