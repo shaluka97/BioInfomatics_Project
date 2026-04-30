@@ -10,6 +10,9 @@ representation learning, and gene-/pathway-level biological validation.
 The repository ships everything needed to reproduce every figure and table
 in the accompanying report (`report/report.pdf`).
 
+## Group
+- BioCode Lab
+
 ## Authors
 
 - 258247B – Keirishan B
@@ -54,7 +57,7 @@ for the report), add it explicitly with `git add -f <path>`.
 ## Repository layout
 
 ```
-gwas-search-space-reduction/
+BioInfomatics_Project/
 ├── README.md
 ├── requirements.txt
 ├── configs/default.yaml          # All hyperparameters live here
@@ -77,6 +80,9 @@ gwas-search-space-reduction/
 │   └── run_pipeline.py           # orchestrator
 ├── notebooks/                    # exploration + walkthrough + analysis
 ├── results/                      # generated artefacts (per run-id)
+│   ├── figures/<run_id>/         # PNG plots
+│   ├── tables/<run_id>/          # CSV summary tables
+│   └── <run_id>/                 # stage CSVs, logs, summary.json
 ├── tests/test_each_stage.py
 └── report/report.pdf
 ```
@@ -99,7 +105,7 @@ they are composed end-to-end by `src/run_pipeline.py`.
 - Every stochastic step takes a `seed` argument that flows from
   `configs/default.yaml::random_seed` (default: 42).
 - Intermediate SNP shortlists are saved to `results/<run_id>/stageK_kept.csv`.
-- Trained autoencoder + classifiers are saved to `results/models/`.
+- Trained autoencoder + classifiers are saved under `results/<run_id>/` alongside the stage outputs.
 
 ## Limitations
 
